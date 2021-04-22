@@ -40,3 +40,5 @@ uploads/
 .env
 
 .docker/dbdata/*
+
+src/auth/constants.ts
