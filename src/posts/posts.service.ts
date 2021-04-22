@@ -1,15 +1,17 @@
 import { Express } from 'express';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Post, PostDocument } from './entities/post.entity';
 import { Model } from 'mongoose';
+
+import { Post, PostDocument } from './entities/post.entity';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class PostsService {
   constructor(
     @InjectModel(Post.name) private readonly postModel: Model<PostDocument>,
   ) {}
-  create(file: Express.Multer.File) {
+  create(file: Express.Multer.File, user: User) {
     const { originalname, size, filename: key, destination: url = '' } = file;
 
     const createdPost = new this.postModel({
@@ -17,6 +19,7 @@ export class PostsService {
       size,
       key,
       url,
+      user,
     });
     return createdPost.save();
   }
