@@ -5,5 +5,6 @@
 - [ ] Remoção do arquivo no disco através da rota Delete
 - [x] Autenticação
 - [x] Implementação dos dados do usuário na hora de cadastrar os posts
-- [ ] Utilização de Storage (Amazon S3 ou Google Storage)
+- [x] Utilização de Storage (Amazon S3 ou Google Storage) - Local foi comentado
 - [ ] Testes para verificação se tudo está funcionando corretamente
+- [ ] Troca fácil entre local e s3
