@@ -87,7 +87,7 @@ export class PostsController {
 
   @UseGuards(AuthGuard())
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postsService.remove(id);
+  async remove(@Param('id') id: string) {
+    return await this.postsService.remove(id);
   }
 }
