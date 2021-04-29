@@ -41,25 +41,24 @@ export class PostsService {
     return this.postModel.findById(id);
   }
 
-  remove(id: string) {
-    const post = this.postModel.findById(id);
-
-    if (post == null) throw new Error('Errorrrrrr');
-
-    post.exec().then((post) => {
-      s3.deleteObject(
-        {
-          Bucket: 'upload-api-tx',
-          Key: post.key,
-        },
-        (err, data) => {
-          if (err) return err;
-          else {
-            post.delete();
-            return null;
-          }
-        },
-      );
-    });
+  async remove(id: string) {
+    try {
+      const post = await this.postModel.findById(id).exec();
+      const params = {
+        Bucket: 'upload-api-tx',
+        Key: (await post).key,
+      };
+      await s3.headObject(params).promise();
+      console.log('Objeto encontrado!');
+      try {
+        await s3.deleteObject(params).promise();
+        (await post).delete();
+        return { message: 'Postagem deletada com sucesso!' };
+      } catch (err) {
+        return { message: `Erro ao deletar o Objeto ${JSON.stringify(err)}` };
+      }
+    } catch (err) {
+      return { message: `Arquivo não encontrado ${err.code}` };
+    }
   }
 }

@@ -87,9 +87,7 @@ export class PostsController {
 
   @UseGuards(AuthGuard())
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<{ message: string }> {
-    const msg = await this.postsService.remove(id);
-    if (msg == null) return { message: 'Post removido com sucesso!' };
-    else return { message: 'error!!!!' };
+  async remove(@Param('id') id: string) {
+    return await this.postsService.remove(id);
   }
 }
